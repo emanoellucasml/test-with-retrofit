@@ -5,6 +5,8 @@ package com.example.mmvmwithretrofit2.retrofit.client
  * The class OkHttpClient isn't part of retrofit library, but it's what connects to the Internet
  * */
 import android.util.Log
+import com.datadog.android.DatadogEventListener
+import com.datadog.android.DatadogInterceptor
 import com.example.mmvmwithretrofit2.retrofit.service.PostService
 import okhttp3.Interceptor
 import retrofit2.Retrofit
@@ -23,6 +25,8 @@ class RetrofitClient private constructor(){
 
         private fun getRetrofitInstance(): Retrofit {
             http = OkHttpClient.Builder()
+                .addInterceptor(DatadogInterceptor())
+                .eventListenerFactory(DatadogEventListener.Factory())
 
             http.addInterceptor(object : Interceptor {
                 override fun intercept(chain: Interceptor.Chain): Response {
